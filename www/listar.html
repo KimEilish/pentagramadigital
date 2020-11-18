@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    
+   
+    <script>
+        
+    </script>
+    <style>
+      .a{
+        
+        height:20vh;
+        border-radius:20px;
+      }
+    </style>
+</head>
+<body>
+    <div class="container">
+      <div class="row-">
+        <div class="col-9 text-center bg-primary text-light mt-2 rounded-pill mx-auto">
+                Listagem
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row" id="nsei">
+        
+      </div>
+    </div>
+     <script>
+
+                function atualizar(){
+                  $.getJSON("http://profrodolfo.com.br/webservice/index.php?listar",function(data){
+                    for(let i = 0; i < data.length; i++){
+                        $('#nsei').append(
+                          `<div class="col-10 a mt-3 bg-warning mx-auto">
+                            <div class="row">
+                            <button onclick="deleteCadastro(${data[i].cd_aluno})">deletar</button>
+                            <a href="./update.html?id=${data[i].cd_aluno}">update</a>
+
+                              <div class="col-10 mt-2">Nome:${data[i].nm_aluno}
+                              
+                              </div>
+                              <div class="col-10 mt-4">E-mail:${data[i].ds_email}</div>
+                              
+                            </div>
+                          </div> ` )
+                   }
+                  })
+                }
+                $(document).ready(()=>{                 
+                    atualizar();
+                })
+                function deleteCadastro(id){
+                  $.ajax({
+                    url:`http://profrodolfo.com.br/webservice/index.php?excluir=${id}`,
+                    type:"get",
+                    success:function(){
+                      alert('Cadastro excluído');
+                      $('#nsei').html('');
+                      atualizar();
+                    },
+                    error:function(){
+                      alert('erro');
+                    }
+                  })   
+                }
+    
+                  
+     </script>
+
+</body>
+</html>

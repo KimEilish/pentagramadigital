@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    
+   
+    <script>
+       function getUrlVars() { 
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+            vars[key] = value;
+            });
+            return vars;
+       }
+
+      const varsUrl = getUrlVars();
+      
+      $(document).ready(() => {
+        $.getJSON(`http://profrodolfo.com.br/webservice/index.php?listar=${varsUrl.id}`, (data) => {
+          console.log(data[0].cd_aluno)
+          $('#nome').val(data[0].nm_aluno);
+          $('#email').val(data[0].ds_email);
+          $('#senha').val(data[0].ds_senha);
+        });
+      });
+
+      function update(){
+              var dados = 
+            {
+              "cd": varsUrl.id,
+              "nome": $('#nome').val(),
+              "email": $('#email').val(),
+              "senha": $('#senha').val()
+            }
+            $.ajax
+    ({
+        url: 'http://profrodolfo.com.br/webservice/index.php',
+        data: dados,
+        type: 'post',
+        success:function(retorno)
+        {
+          navigator.notification.alert(retorno);
+          
+       
+        },
+        error: function(retorno)
+        {
+          navigator.notification.alert("Erro de Atualização");
+          
+          
+        }
+    })      
+      }
+
+    </script>
+</head>
+<body>
+   <div class="container">
+      <div class="row">
+              <div class="col-12">
+                  <h1 class="text">Atualizar Registro</h1>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                  <label style="font-size:18px;">Nome:</label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-12">
+                  <input type="text" id = "nome" class="form-control btn-block lg">
+              </div>
+            </div>
+
+              <div class="row">
+                <div class="col-12">
+                    <label style="font-size:18px;">Email:</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                    <input type="text" id = "email" class="form-control btn-block lg">
+                </div>
+              </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <label style="font-size:18px;">Senha:</label>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                    <input type="password" id = "senha" class="form-control btn-block lg">
+                    <input type="hidden" id="cd" value="0">
+                </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-12 mt-3">
+                      <button onclick="update()" id="Atualizar" class="btn btn-primary">Atualizar</button>
+                  </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12 mt-3">
+                  <a href="./listar.html"class="btn btn-danger">listagem</a>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-12">
+                    <ul class="mt-3" id="lista">
+
+                    </ul>
+                </div>
+              </div>
+      </div>
+</body>
+</html>
